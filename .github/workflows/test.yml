@@ -4,17 +4,18 @@ on:
   push:
     branches:
       - main
+    paths: '**.json'
   pull_request:
     branches:
       - main
+    paths: '**.json'
 
 jobs:
-  verify-json-validation:
+  json-validation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Validate JSON
-        uses: docker://orrosenblatt/validate-json-action:latest
-        env:
-          INPUT_SCHEMA: /config/schema.json
-          INPUT_JSONS: /src/data/hounds.json
+        uses: limitusus/json-syntax-check@v1
+        with:
+          pattern: "\\.json$"
