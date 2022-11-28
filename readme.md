@@ -1,5 +1,7 @@
 # The Names of All Manner of Hounds
 
+![GitHub Workflow Status](https://github.com/jazzsequence/all-manner-of-hounds/actions/workflows/test.yml/badge.svg)
+
 ![Medieval Image of houndis](https://cdn8.openculture.com/2022/11/24222653/Livre_de_Chasse_40v-1.jpg)
 
 > Here begynnyth the names of all maner of houndis after the a.b.c. Firste to begynne with .a. for houndis names...
