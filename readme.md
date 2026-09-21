@@ -40,6 +40,13 @@ first: in the repo's **Settings → Pages**, set **Source** to **GitHub Actions*
 (only needs doing once). The build passes `BASE_PATH=/<repo-name>/` so assets
 resolve correctly at `https://<user>.github.io/<repo-name>/`.
 
+### Keeping dependencies current
+
+`.github/dependabot.yml` checks weekly for updates to the npm dependencies and
+to the Actions used in the workflows, and opens a PR for each. Patch and minor
+bumps are grouped into one PR per ecosystem; a major version still gets its
+own PR, since those are the ones worth reading before merging.
+
 ### Layout
 
 * `src/data/hounds.json` — all 1,065 names, the thing you actually want
