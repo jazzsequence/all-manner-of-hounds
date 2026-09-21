@@ -10,14 +10,42 @@ This project is based on the [Medieval manuscript shared by OpenCulture](https:/
 
 The thought was, _what could be done with 1,065 medeival dog names?_ and the answer, of course, is always Dungeons & Dragons. Therefore, this project is to build/provide a TTRPG name generator that randomly chooses from these names for whatever purpose you may need it for.
 
-### Notes
-* In some cases, a name included a character that, as best as I can tell, is literally a numeral 3. According to [this document](https://sites.ualberta.ca/~sreimer/ms-course/course/eng-chrs.htm) (the only one I could find with a quick Google), this is a "yogh" and is basically the letter "g". Some of these characters were replaced with an "m" on a first pass before I found that information.
+## Running it
+
+```sh
+npm install
+npm run dev
+```
+
+| Script | What it does |
+| --- | --- |
+| `npm run dev` | Vite dev server |
+| `npm run build` | Production build into `dist/` |
+| `npm run preview` | Serve the production build |
+| `npm test` | Vitest suite |
+| `npm run lint` | ESLint |
+| `npm run transcribe` | Re-runs the OCR importer and prints its names |
+
+Pick how many names you want, optionally narrow to a starting letter, and copy
+the result. Names are drawn without repeats within a single draw.
+
+### Layout
+
+* `src/data/hounds.json` — all 1,065 names, the thing you actually want
+* `src/data/raw.txt` — the OCR the F–Z portion was recovered from
+* `src/hounds.js` — loading, filtering and drawing
+* `src/components/` — the app
+* `scripts/transcribe-raw.mjs` — the OCR importer, kept for provenance
+
+## Notes
+* In some cases, a name included a character that, as best as I can tell, is literally a numeral 3. According to [this document](https://sites.ualberta.ca/~sreimer/ms-course/course/eng-chrs.htm) (the only one I could find with a quick Google), this is a "yogh" and is basically the letter "g". Some of these characters were replaced with an "m" on a first pass before I found that information; they are written as "g" now.
 * In some cases, one or more characters is wrapped with `<` and `>` characters. I've left these in place as carets.
-* The names are presented in the JSON file in as alphabetical an order as they were presented in the manuscript (which isn't strictly alphabetical, despite the note).
+* The names are presented in the JSON file in as alphabetical an order as they were presented in the manuscript (which isn't strictly alphabetical, despite the note). For the portion recovered from OCR the order is approximate — see [docs/transcription.md](docs/transcription.md).
+* The OCR was rough, and a couple dozen names are best guesses rather than confident readings. They are all listed in [docs/transcription.md](docs/transcription.md) if you have access to the printed edition and want to fix them.
 
 ## TODO
-* Finish transcribing names from OCR-read raw text file into json.
-* Replace yogh characters represented with an "m" with "g" characters instead.
-* Build a react app for the name generator
-* Add styling to the app
+* ~~Finish transcribing names from OCR-read raw text file into json.~~
+* ~~Replace yogh characters represented with an "m" with "g" characters instead.~~
+* ~~Build a react app for the name generator~~
+* ~~Add styling to the app~~
 * Build a WP plugin to display the random names? (possible future implementation)
