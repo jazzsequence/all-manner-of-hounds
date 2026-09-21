@@ -2,6 +2,8 @@
 
 [![GitHub Workflow Status](https://github.com/jazzsequence/all-manner-of-hounds/actions/workflows/test.yml/badge.svg)](https://github.com/jazzsequence/all-manner-of-hounds/actions)
 
+**[Live site](https://jazzsequence.github.io/all-manner-of-hounds/)** — deploys automatically from `main`.
+
 > Here begynnyth the names of all maner of houndis after the a.b.c. Firste to begynne with .a. for houndis names...
 
 ![Medieval Image of houndis](https://cdn8.openculture.com/2022/11/24222653/Livre_de_Chasse_40v-1.jpg)
@@ -29,6 +31,14 @@ npm run dev
 
 Pick how many names you want, optionally narrow to a starting letter, and copy
 the result. Names are drawn without repeats within a single draw.
+
+### Deploying
+
+`.github/workflows/deploy.yml` builds and publishes `main` to GitHub Pages on
+every push, via `actions/deploy-pages` — no `gh-pages` branch. One manual step
+first: in the repo's **Settings → Pages**, set **Source** to **GitHub Actions**
+(only needs doing once). The build passes `BASE_PATH=/<repo-name>/` so assets
+resolve correctly at `https://<user>.github.io/<repo-name>/`.
 
 ### Layout
 
