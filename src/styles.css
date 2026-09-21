@@ -1,0 +1,298 @@
+:root {
+	--parchment: #efe3cb;
+	--parchment-edge: #e2d2b2;
+	--ink: #2f2418;
+	--ink-soft: #6b5a44;
+	--rubric: #9b2226;
+	--rubric-soft: #c1666b;
+	--gold: #a9772f;
+	--rule: rgba(47, 36, 24, 0.22);
+	--display: 'Uncial Antiqua', 'Papyrus', serif;
+	--body: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+	color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		--parchment: #191512;
+		--parchment-edge: #241e18;
+		--ink: #e8dcc6;
+		--ink-soft: #a9987c;
+		--rubric: #d9756b;
+		--rubric-soft: #b4564f;
+		--gold: #d2a14e;
+		--rule: rgba(232, 220, 198, 0.22);
+		color-scheme: dark;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	background-color: var(--parchment);
+}
+
+body {
+	margin: 0;
+	min-height: 100dvh;
+	background-color: var(--parchment);
+	background-image: radial-gradient(circle at 20% 15%, rgba(169, 119, 47, 0.1), transparent 45%),
+		radial-gradient(circle at 85% 80%, rgba(155, 34, 38, 0.08), transparent 50%);
+	color: var(--ink);
+	font-family: var(--body);
+	font-size: 1.125rem;
+	line-height: 1.6;
+}
+
+.page {
+	max-width: 46rem;
+	margin: 0 auto;
+	padding: 3rem 1rem 4rem;
+}
+
+.masthead {
+	text-align: center;
+	border-bottom: 1px solid var(--rule);
+	padding-bottom: 1.75rem;
+}
+
+h1 {
+	font-family: var(--display);
+	font-size: clamp(1.75rem, 6vw, 3rem);
+	font-weight: 400;
+	line-height: 1.15;
+	margin: 0 0 1rem;
+	color: var(--rubric);
+}
+
+blockquote {
+	max-width: 34rem;
+	margin: 0 auto;
+	text-align: left;
+	font-style: italic;
+	color: var(--ink-soft);
+	font-size: 1.05rem;
+}
+
+/* A rubricated opening capital, as the manuscript would have it. */
+blockquote::first-letter {
+	font-family: var(--display);
+	font-size: 2.4em;
+	font-style: normal;
+	line-height: 1;
+	float: left;
+	padding: 0.1em 0.12em 0 0;
+	color: var(--rubric);
+}
+
+.kennel {
+	margin-top: 2.5rem;
+}
+
+.controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.25rem 2.5rem;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+legend,
+.initial-filter {
+	font-variant: small-caps;
+	letter-spacing: 0.06em;
+	color: var(--ink-soft);
+	font-size: 1rem;
+}
+
+.count-options {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.4rem;
+}
+
+.count-option {
+	position: relative;
+	border: 1px solid var(--rule);
+	border-radius: 2px;
+	padding: 0.35rem 0.9rem;
+	cursor: pointer;
+	background: transparent;
+	transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.count-option:hover {
+	border-color: var(--rubric-soft);
+}
+
+.count-option:has(input:checked) {
+	background: var(--rubric);
+	border-color: var(--rubric);
+	color: var(--parchment);
+}
+
+.count-option input {
+	position: absolute;
+	opacity: 0;
+	inset: 0;
+	margin: 0;
+	cursor: pointer;
+}
+
+.count-option:has(input:focus-visible) {
+	outline: 2px solid var(--gold);
+	outline-offset: 2px;
+}
+
+.initial-filter {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+select {
+	font-family: var(--body);
+	font-size: 1rem;
+	color: var(--ink);
+	background: transparent;
+	border: 1px solid var(--rule);
+	border-radius: 2px;
+	padding: 0.35rem 0.5rem;
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.75rem;
+	margin: 2rem 0 0;
+}
+
+button {
+	font-family: var(--body);
+	font-size: 1.05rem;
+	font-variant: small-caps;
+	letter-spacing: 0.08em;
+	padding: 0.6rem 1.4rem;
+	border: 1px solid var(--rubric);
+	border-radius: 2px;
+	background: transparent;
+	color: var(--rubric);
+	cursor: pointer;
+	transition: background-color 120ms ease, color 120ms ease;
+}
+
+button:hover:not(:disabled) {
+	background: var(--rubric);
+	color: var(--parchment);
+}
+
+button.primary {
+	background: var(--rubric);
+	color: var(--parchment);
+}
+
+button.primary:hover {
+	background: var(--rubric-soft);
+	border-color: var(--rubric-soft);
+}
+
+button:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+
+button:focus-visible,
+select:focus-visible {
+	outline: 2px solid var(--gold);
+	outline-offset: 2px;
+}
+
+.hound-list {
+	list-style: none;
+	margin: 2.5rem 0 0;
+	padding: 0;
+	border-top: 1px solid var(--rule);
+}
+
+.hound-list li {
+	display: flex;
+	align-items: baseline;
+	gap: 1rem;
+	padding: 0.85rem 0.25rem;
+	border-bottom: 1px solid var(--rule);
+}
+
+.hound-ordinal {
+	font-variant: small-caps;
+	font-size: 0.85rem;
+	letter-spacing: 0.08em;
+	color: var(--gold);
+	min-width: 4.5rem;
+}
+
+.hound-name {
+	font-family: var(--display);
+	font-size: clamp(1.4rem, 4.5vw, 2rem);
+	color: var(--ink);
+}
+
+.empty {
+	margin-top: 2.5rem;
+	text-align: center;
+	color: var(--ink-soft);
+	font-style: italic;
+}
+
+.tally,
+footer p {
+	color: var(--ink-soft);
+	font-size: 0.95rem;
+}
+
+.tally {
+	text-align: center;
+	margin-top: 1.5rem;
+	font-variant: small-caps;
+	letter-spacing: 0.05em;
+}
+
+footer {
+	margin-top: 3.5rem;
+	border-top: 1px solid var(--rule);
+	padding-top: 1.5rem;
+	text-align: center;
+}
+
+a {
+	color: var(--rubric);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+}
+
+@media (max-width: 30rem) {
+	.hound-list li {
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.hound-ordinal {
+		min-width: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	* {
+		transition: none !important;
+	}
+}
