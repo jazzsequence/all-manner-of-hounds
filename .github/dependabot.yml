@@ -1,0 +1,25 @@
+version: 2
+updates:
+  # Site dependencies (React, Vite, Vitest, ESLint, etc.)
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      # Patch/minor bumps land together in one PR; majors still get their own,
+      # since those are the ones worth reviewing individually.
+      dependencies:
+        update-types:
+          - minor
+          - patch
+
+  # Actions used by the CI and deploy workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        update-types:
+          - minor
+          - patch

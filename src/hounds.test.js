@@ -20,6 +20,14 @@ describe('the manuscript data', () => {
 		expect(hounds).toContain('Dere-ybowgt');
 		expect(hounds).not.toContain('Dere-ybowmt');
 	});
+
+	it('has no name that is a bare bracketed word', () => {
+		// A caret around part of a word marks a letter the source wasn't sure
+		// of (see docs/transcription.md); a caret around the whole word, as
+		// "<Dyamound>" used to be, isn't that, and reads as broken in the app.
+		expect(hounds.filter((hound) => /^<[^<>]*>$/.test(hound))).toEqual([]);
+		expect(hounds).toContain('Dyamound');
+	});
 });
 
 describe('houndsFor', () => {

@@ -31,8 +31,11 @@ Damage that could be undone without guessing:
 | stray `.` | — | `Sa.ge` → `Sage` |
 | `{ }` | — | `{Drynkall}` → `Drynkall` |
 
-Angle brackets are left as carets, as elsewhere in the data: they are the
-edition's expansions of scribal abbreviations, not OCR damage.
+Angle brackets are left as carets, as elsewhere in the data: the edition marks
+a letter or two it wasn't fully certain of that way, and that's a real
+ambiguity in the source, not OCR damage. Six entries carry this over from the
+edition: `Mo<r>gan`, `R<e>lefe`, `Ri<s>chawde`, `Sel<w>de`, `Gal<aw>nte`,
+`Wo<n>ell`.
 
 Everything else needed a judgement call, because the edition's broken type gave
 the same OCR sequence for different letters:
@@ -109,6 +112,11 @@ the tables above still match the code, so drift between the two gets caught.
 | `Cleuche` | `Clenche` | `Clellcl1e` gives `Clenche` under the `ll` → n and `cl1` → ch rules, and `Clenche` is attested as a hound name |
 | `Goodynowe` | `Goodynowge` | The edition reads `Goodynowȝe`; the yogh is written as `g` here, as elsewhere in the data |
 | `Lodismfill` | `Lodisman` | `Lodisman` (a guide or pilot) is attested in the list; nothing else in the data is close to it |
+| `<Dyamound>` | `Dyamound` | Hand-transcribed, not from the edition or the OCR, so the brackets weren't the edition's own abbreviation mark. Multiple published listings of the manuscript reproduce it plainly, and it fits the gem names already in the data (`Emerawde`, `Amatiste`, `Argente`) |
+
+Three more hand-transcribed entries carry brackets the same way `Dyamound`
+did — `Chawmpir-n<o>wne`, `Ca<mi>ot`, `Chol<s>ey` — but nothing turned up to
+confirm or correct them, so they're left as transcribed.
 
 ## Ordering
 
