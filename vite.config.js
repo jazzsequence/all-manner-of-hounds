@@ -3,7 +3,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
 	plugins: [react()],
-	// Served from a project page on GitHub Pages, so assets need the repo prefix.
+	// Served from the custom domain's root, so '/' is right. BASE_PATH stays
+	// as an override for anyone building for a /<repo>/ project-page subpath
+	// instead (e.g. previewing without the custom domain).
 	base: process.env.BASE_PATH ?? '/',
 	test: {
 		environment: 'jsdom',
