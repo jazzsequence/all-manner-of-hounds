@@ -12,7 +12,8 @@
 		"lint": "eslint .",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"transcribe": "node scripts/transcribe-raw.mjs"
+		"transcribe": "node scripts/transcribe-raw.mjs",
+		"transcribe:apply": "node scripts/transcribe-raw.mjs --write"
 	},
 	"dependencies": {
 		"react": "^19.2.0",

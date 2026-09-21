@@ -25,6 +25,7 @@ npm run dev
 | `npm test` | Vitest suite |
 | `npm run lint` | ESLint |
 | `npm run transcribe` | Re-runs the OCR importer and prints its names |
+| `npm run transcribe:apply` | Writes the importer's output back into `hounds.json` |
 
 Pick how many names you want, optionally narrow to a starting letter, and copy
 the result. Names are drawn without repeats within a single draw.
@@ -41,7 +42,7 @@ the result. Names are drawn without repeats within a single draw.
 * In some cases, a name included a character that, as best as I can tell, is literally a numeral 3. According to [this document](https://sites.ualberta.ca/~sreimer/ms-course/course/eng-chrs.htm) (the only one I could find with a quick Google), this is a "yogh" and is basically the letter "g". Some of these characters were replaced with an "m" on a first pass before I found that information; they are written as "g" now.
 * In some cases, one or more characters is wrapped with `<` and `>` characters. I've left these in place as carets.
 * The names are presented in the JSON file in as alphabetical an order as they were presented in the manuscript (which isn't strictly alphabetical, despite the note). For the portion recovered from OCR the order is approximate — see [docs/transcription.md](docs/transcription.md).
-* The OCR was rough, and a couple dozen names are best guesses rather than confident readings. They are all listed in [docs/transcription.md](docs/transcription.md) if you have access to the printed edition and want to fix them.
+* The OCR was rough, and 36 names are guesses rather than confident readings. They are all listed in [docs/transcription.md](docs/transcription.md), along with how to correct one: edit the reading in `scripts/transcribe-raw.mjs` and run `npm run transcribe:apply`. The test suite catches any drift between the two.
 
 ## TODO
 * ~~Finish transcribing names from OCR-read raw text file into json.~~

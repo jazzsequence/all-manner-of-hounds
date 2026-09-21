@@ -1,19 +1,25 @@
 #!/usr/bin/env node
 /**
- * One-time importer for src/data/raw.txt, kept for provenance.
+ * Importer for src/data/raw.txt, which is OCR output taken from a printed
+ * edition of the manuscript list. The edition is set in two columns, so a
+ * single raw line can hold one entry from each, and the OCR mangled the
+ * edition's type in ways that are mostly but not entirely predictable. See
+ * docs/transcription.md.
  *
- * raw.txt is OCR output taken from a printed edition of the manuscript list,
- * which is set in two columns. A single raw line can therefore hold one entry
- * from each column, and the OCR mangled the edition's type in fairly
- * predictable ways (see docs/transcription.md).
+ * This produced the F-Z portion of src/data/hounds.json, and it is kept so the
+ * readings can be checked and argued with. To correct one, edit the READINGS
+ * or CONJECTURAL table below and re-apply:
  *
- * Prints the recovered names as a JSON array. src/data/hounds.json is the
- * maintained copy of the data; this script is how the F-Z portion of it was
- * produced, and it is here so the readings can be checked and argued with.
- *
- *   node scripts/transcribe-raw.mjs
+ *   node scripts/transcribe-raw.mjs          # print the recovered names
+ *   node scripts/transcribe-raw.mjs --write  # write them into hounds.json
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+
+/**
+ * Names at the head of hounds.json that were transcribed by hand from the
+ * manuscript rather than recovered from raw.txt. --write leaves them alone.
+ */
+export const HAND_TRANSCRIBED = 223;
 
 /** Column and section headings from the manuscript, as the OCR mangled them. */
 const HEADINGS =
@@ -55,7 +61,7 @@ const READINGS = {
 	Cl1ekke: 'Chekke',
 	Cl1ilde: 'Childe',
 	Cl1ampyll: 'Champyn',
-	Clellcl1e: 'Cleuche',
+	Clellcl1e: 'Clenche',
 	Cn1ell: 'Cruell',
 	Colyll: 'Colyn',
 	Dascl1elake: 'Daschelake',
@@ -131,6 +137,8 @@ const READINGS = {
 	Stayllesn1ore: 'Staynesmore',
 	StLrrdy: 'Sturdy',
 	Streccl1eofrtl1e: 'Strecche-forthe', // CONJECTURAL
+	Goodyllwe: 'Goodynowge', // attested as Goodynowȝe; yogh written as g
+	Lodismfill: 'Lodisman',
 	Sy1nbale: 'Symbale',
 	Yolai1te: 'Yolante',
 	Syllgerre: 'Syngerre',
@@ -142,14 +150,21 @@ const READINGS = {
 	Wencl1e: 'Wenche',
 	Wisedo1ne: 'Wisedome',
 	'Wise-ynoWe': 'Wise-ynowe',
-	// Damaged beyond a confident reading; the least bad option is recorded.
+};
+
+/**
+ * Entries the OCR damaged beyond a confident reading. The least bad option is
+ * recorded so the data has no obvious garbage in it, but every one of these is
+ * a guess. Replace them from the printed edition when you can; see
+ * `npm run transcribe:apply` in the readme.
+ */
+export const CONJECTURAL = {
 	Asglldde: 'Asgudde', // CONJECTURAL
 	Aven1s: 'Avems', // CONJECTURAL
 	Awntn1s: 'Awntms', // CONJECTURAL
 	Bry1n: 'Brym', // CONJECTURAL
 	Brellte: 'Brente', // CONJECTURAL
 	'Dow1)': 'Dowty', // CONJECTURAL
-	Goodyllwe: 'Goodynowe', // CONJECTURAL
 	'J[erownde': 'Jerownde', // CONJECTURAL
 	J1mosse: 'Jimosse', // CONJECTURAL
 	MalifawJlte: 'Malifawlte', // CONJECTURAL
@@ -169,6 +184,29 @@ const READINGS = {
 	Wellawt1de: 'Wellawnde', // CONJECTURAL
 	Wellyfowt1de: 'Wellyfownde', // CONJECTURAL
 };
+
+/**
+ * Entries the mechanical rules resolved cleanly enough to leave alone, but
+ * which still read oddly. Less doubtful than CONJECTURAL, still worth checking.
+ */
+export const DOUBTFUL = [
+	'Bribtrr',
+	'Frowmwnde',
+	'Gwmore',
+	'Gyrunownde',
+	'Lainprwi',
+	'Lyllyrmore',
+	'Moremai',
+	'Peete', // likely Feete: it sits in a run of F names
+	'Ryngebome',
+	'Thlewe',
+	'Yevai',
+	'Yllkir',
+];
+
+/** Every name in the data that is not a confident transcription. */
+export const UNCERTAIN = [...Object.values(CONJECTURAL), ...DOUBTFUL].sort();
+
 
 const LETTER = /[A-Za-z]/;
 const letterIndex = (name) => {
@@ -190,7 +228,7 @@ function cellsOf(line) {
 
 function repair(cell) {
 	const cleaned = MECHANICAL.reduce((name, [pattern, to]) => name.replace(pattern, to), cell);
-	return READINGS[cleaned] ?? cleaned;
+	return READINGS[cleaned] ?? CONJECTURAL[cleaned] ?? cleaned;
 }
 
 /**
@@ -252,6 +290,16 @@ export function transcribe(raw) {
 }
 
 if (import.meta.filename === process.argv[1]) {
-	const raw = readFileSync(new URL('../src/data/raw.txt', import.meta.url), 'utf8');
-	process.stdout.write(JSON.stringify(transcribe(raw), null, '\t') + '\n');
+	const rawPath = new URL('../src/data/raw.txt', import.meta.url);
+	const names = transcribe(readFileSync(rawPath, 'utf8'));
+
+	if (!process.argv.includes('--write')) {
+		process.stdout.write(JSON.stringify(names, null, '\t') + '\n');
+	} else {
+		const jsonPath = new URL('../src/data/hounds.json', import.meta.url);
+		const manuscript = JSON.parse(readFileSync(jsonPath, 'utf8'));
+		manuscript.data = [...manuscript.data.slice(0, HAND_TRANSCRIBED), ...names];
+		writeFileSync(jsonPath, JSON.stringify(manuscript, null, '\t') + '\n');
+		process.stderr.write(`Wrote ${manuscript.data.length} names to src/data/hounds.json\n`);
+	}
 }

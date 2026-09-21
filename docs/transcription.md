@@ -53,22 +53,62 @@ applied as rules, since no rule gets them all right.
 
 ## Entries that are still guesses
 
-The OCR for these was too badly broken to read with any confidence. The best
-available option was recorded; the entries are marked `CONJECTURAL` in the
-script's `READINGS` table, and anyone with access to the edition should replace
-them.
+The OCR for these was too broken to read with confidence. The least bad option
+is recorded so the data has no obvious garbage in it, but every one is a guess.
+They live in the `CONJECTURAL` table in `scripts/transcribe-raw.mjs`.
 
-`Asgudde`, `Avems`, `Awntms`, `Brente`, `Brym`, `Dowty`, `Goodynowe`,
-`Jerownde`, `Jimosse`, `Malifawlte`, `Menaylus`, `Mowneraunt`, `Mowntayne`,
-`Myneme`, `Neymys`, `Olifeme`, `Rossyngdale`, `Sowdiowre`, `Strecche-forthe`,
-`Trunket`, `Vapuruawnt`, `Visemente`, `Watman`, `Wellawnde`, `Wellyfownde`,
-`Whirre`
+| OCR | Reading |
+| --- | --- |
+| `Asglldde` | Asgudde |
+| `Aven1s` | Avems |
+| `Awntn1s` | Awntms |
+| `Brellte` | Brente |
+| `Bry1n` | Brym |
+| `Dow1)` | Dowty |
+| `J[erownde` | Jerownde |
+| `J1mosse` | Jimosse |
+| `MalifawJlte` | Malifawlte |
+| `Men1aylus` | Menaylus |
+| `Mm1tayne` | Mowntayne |
+| `Mowiueraullt` | Mowneraunt |
+| `Mynen1e` | Myneme |
+| `Neyn1ys` | Neymys |
+| `Olifen1e` | Olifeme |
+| `Rossllngdaie` | Rossyngdale |
+| `Sowdiowfe` | Sowdiowre |
+| `Tnwnket` | Trunket |
+| `Vapllruawnt` | Vapuruawnt |
+| `Visen1ellte` | Visemente |
+| `Watinnan` | Watman |
+| `Wbirre` | Whirre |
+| `Wellawt1de` | Wellawnde |
+| `Wellyfowt1de` | Wellyfownde |
 
-A handful more came through the mechanical rules cleanly enough to keep as-is,
-but still read oddly and may well be wrong: `Bribtrr`, `Frowmwnde`,
-`Gyrunownde`, `Gwmore`, `Lainprwi`, `Lodismfill`, `Lyllyrmore`, `Moremai`,
-`Peete` (likely `Feete` — it sits in a run of F names), `Ryngebome`, `Thlewe`,
-`Yevai`, `Yllkir`.
+A dozen more came through the mechanical rules cleanly enough to leave alone,
+but still read oddly. They are the `DOUBTFUL` list in the same file:
+
+`Bribtrr`, `Frowmwnde`, `Gwmore`, `Gyrunownde`, `Lainprwi`, `Lyllyrmore`, `Moremai`, `Peete`, `Ryngebome`, `Thlewe`, `Yevai`, `Yllkir`
+
+### Correcting one
+
+If you have the printed edition, fixing a reading is two steps:
+
+1. Edit the entry in `READINGS` or `CONJECTURAL` in `scripts/transcribe-raw.mjs`
+   — or, if it turns out to be right, move it out of `CONJECTURAL` into
+   `READINGS`. Drop an entry from `DOUBTFUL` once you have confirmed it.
+2. Run `npm run transcribe:apply`, which rewrites the OCR-derived portion of
+   `src/data/hounds.json` and leaves the hand-transcribed names alone.
+
+`npm test` checks that `hounds.json` matches what the script produces, and that
+the tables above still match the code, so drift between the two gets caught.
+
+## Corrections already made this way
+
+| Was | Now | Why |
+| --- | --- | --- |
+| `Cleuche` | `Clenche` | `Clellcl1e` gives `Clenche` under the `ll` → n and `cl1` → ch rules, and `Clenche` is attested as a hound name |
+| `Goodynowe` | `Goodynowge` | The edition reads `Goodynowȝe`; the yogh is written as `g` here, as elsewhere in the data |
+| `Lodismfill` | `Lodisman` | `Lodisman` (a guide or pilot) is attested in the list; nothing else in the data is close to it |
 
 ## Ordering
 
